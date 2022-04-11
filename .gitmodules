@@ -1,3 +1,9 @@
 [submodule "Fast-Robust-ICP"]
 	path = Fast-Robust-ICP
 	url = git@github.com:Timbersaw-wangzw/Fast-Robust-ICP.git
+[submodule "WES-ICP"]
+	path = WES-ICP
+	url = git@github.com:Timbersaw-wangzw/WES-ICP.git
+[submodule "mv-lm-icp"]
+	path = mv-lm-icp
+	url = git@github.com:Timbersaw-wangzw/mv-lm-icp.git
