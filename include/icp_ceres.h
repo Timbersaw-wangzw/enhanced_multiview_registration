@@ -15,6 +15,10 @@ using namespace std;
 namespace ICP_CERES
 {
     Isometry3d pointToPlane_SophusSE3(vector<Vector3d> &src,vector<Vector3d> &dst,vector<Vector3d> &nor,bool automaticDiffLocalParam=true);
+};
+namespace ICPCostFunctions
+{
+    
     struct PointToPlaneError_SophusSE3{
     const Eigen::Vector3d& p_dst;
     const Eigen::Vector3d& p_src;
@@ -29,7 +33,7 @@ namespace ICP_CERES
 
     // Factory to hide the construction of the CostFunction object from the client code.
     static ceres::CostFunction* Create(const Eigen::Vector3d& observed, const Eigen::Vector3d& worldPoint, const Eigen::Vector3d& normal) {
-        return (new ceres::AutoDiffCostFunction<PointToPlaneError_SophusSE3, 1, 7>(new PointToPlaneError_SophusSE3(observed, worldPoint,normal)));
+        return (new ceres::AutoDiffCostFunction<PointToPlaneError_SophusSE3, 1, 6>(new PointToPlaneError_SophusSE3(observed, worldPoint,normal)));
     }
 
     template <typename T>
@@ -42,10 +46,12 @@ namespace ICP_CERES
 
 
         // Map the T* array to an Sophus SE3 object (with appropriate Scalar type)
-        Sophus::SE3Group<T> q = Eigen::Map< const Sophus::SE3Group<T> >(cam1);
+        Eigen::Matrix<T,6,1> v;
+        v<<cam1[0],cam1[1],cam1[2],cam1[3],cam1[4],cam1[5];
+        Sophus::SE3<T> Trans=Sophus::SE3<T>::exp(v);
 
         // Rotate the point using Eigen rotations
-        p = q.unit_quaternion() * p + q.translation();
+        p = Trans.rotationMatrix() * p + Trans.translation();
 
         // The error is the difference between the predicted and observed position projected onto normal
         residuals[0] = (p - point2).dot(normal);
