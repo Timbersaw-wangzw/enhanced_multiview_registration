@@ -1,0 +1,6 @@
+#ignore build
+.kdev4/
+.vscode/
+build/
+pcl_test.kdev4
+CMakeLists.txt.user
