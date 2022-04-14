@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     //robustOptimize::robustFunc fcn(1, robustOptimize::cauchy);
     //robustOptimize::pairwiseICP::registrationLoop icp(source_cloud, target_cloud, fcn, 50, 1e-4, robustOptimize::pairwiseICP::manual);
     //icp.optimize();
-    robustOptimize::pairwiseICP::registrationICP icp(vertices_source,vertics_target,robustOptimize::pairwiseICP::RICP);
+    pairwiseICP::registrationICP icp(vertices_source,vertics_target,pairwiseICP::RICP);
     icp.align();
     typeTransfer(*vertices_source,*transformed_cloud);
     std::cout<<"final transformation is "<<std::endl;

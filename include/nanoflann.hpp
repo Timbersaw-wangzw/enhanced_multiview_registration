@@ -445,7 +445,7 @@ namespace nanoflann
 	 * The following routines allow for the efficient allocation of storage in
 	 * small chunks from a specified pool.  Rather than allowing each structure
 	 * to be freed individually, an entire pool of storage is freed at once.
-	 * This method has two advantages over just using malloc() and free().  First,
+	 * This solveMethod has two advantages over just using malloc() and free().  First,
 	 * it is far more efficient for allocating small objects, as there is
 	 * no overhead for remembering all the information needed to free each
 	 * object or consolidating fragmented memory.  Second, the decision about
@@ -1243,7 +1243,7 @@ namespace nanoflann
 		const MatrixType &m_data_matrix;
 
 		/** Query for the \a num_closest closest points to a given point (entered as query_point[0:dim-1]).
-		  *  Note that this is a short-cut method for index->findNeighbors().
+		  *  Note that this is a short-cut solveMethod for index->findNeighbors().
 		  *  The user can also call index->... methods as desired.
 		  * \note nChecks_IGNORED is ignored but kept for compatibility with the original FLANN interface.
 		  */

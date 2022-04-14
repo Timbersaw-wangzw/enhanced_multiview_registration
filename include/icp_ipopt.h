@@ -116,7 +116,7 @@ namespace pairwise{
             {
                 return false;
             };
-            /** This method is called when the algorithm is complete so the TNLP can store/write the solution */
+            /** This solveMethod is called when the algorithm is complete so the TNLP can store/write the solution */
             void finalize_solution(
                     SolverReturn status,
                     Index n,

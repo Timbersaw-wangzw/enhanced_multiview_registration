@@ -210,10 +210,10 @@ namespace RigidMotionEstimator {
     }
 }
 ///////////////////////////////////////////////////////////////////////////////
-/// ICP implementation using ADMM/ALM/Penalty method
+/// ICP implementation using ADMM/ALM/Penalty solveMethod
 namespace SICP {
     struct Parameters {
-        bool use_penalty = false; /// if use_penalty then penalty method else ADMM or ALM (see max_inner)
+        bool use_penalty = false; /// if use_penalty then penalty solveMethod else ADMM or ALM (see max_inner)
         double p = 1.0;           /// p norm
         double mu = 10.0;         /// penalty weight
         double alpha = 1.2;       /// penalty increase factor

@@ -16,7 +16,6 @@
 // Authors:  Carl Laird, Andreas Waechter     IBM    2005-08-16
 
 using namespace Ipopt;
-using namespace robustOptimize;
 using namespace pairwiseICP;
 // constructor
 

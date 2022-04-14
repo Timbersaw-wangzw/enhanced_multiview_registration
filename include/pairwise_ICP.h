@@ -18,7 +18,6 @@
 #include <pcl/point_types.h>
 #include <pcl/common/transforms.h>
 // include files
-#include "robust_function.h"
 #include "complement_lie.h"
 // eigen
 #include <Eigen/Core>
@@ -38,7 +37,7 @@
 
 namespace pairwiseICP
 {
-    enum method
+    enum solveMethod
     {
         ipopt,
         manual,
@@ -56,7 +55,7 @@ namespace pairwiseICP
     public:
         registrationICP(Eigen::Matrix<double, 3, Eigen::Dynamic>* source_cloud,
                         Eigen::Matrix<double, 3, Eigen::Dynamic>* target_cloud,
-                        method method)
+                        solveMethod method)
         {
             this->vertices_source = source_cloud;
             this->vertices_target = target_cloud;
@@ -69,7 +68,7 @@ namespace pairwiseICP
         Eigen::Matrix<double, 3, Eigen::Dynamic> *vertices_target;
         Eigen::Matrix<double, 3, Eigen::Dynamic> normal_source;
         Eigen::Matrix<double, 3, Eigen::Dynamic> normal_target;
-        method method;
+        solveMethod method;
     };
 }
 #endif

@@ -156,8 +156,9 @@ bool registrationNLP::eval_f(
                           target_cloud.points[i].z,
                           1);
         Eigen::Vector4f temp =transform.matrix() * p - q;
-        Eigen::VectorXd r (temp(0),temp(1),temp(2),temp(3));
-        obj_value = obj_value + ICP::get_energy(pars.f, r, 1);
+        Eigen::VectorXd r;
+        r<<(double)temp(0),(double)temp(1),(double)temp(2),(double)temp(3);
+        obj_value = obj_value + (float)ICP::get_energy(pars.f, r, 1);
     }
     return true;
 }
@@ -190,9 +191,9 @@ bool registrationNLP::eval_grad_f(
                           target_cloud.points[i].y,
                           target_cloud.points[i].z,
                           1);
-        Eigen::VectorXd r(transformed_cloud.points[i].x - target_cloud.points[i].x,
-                          transformed_cloud.points[i].y - target_cloud.points[i].y,
-                          transformed_cloud.points[i].z - target_cloud.points[i].z);
+        Eigen::Vector4f temp =transform.matrix() * p - q;
+        Eigen::VectorXd r;
+        r<<(double)temp(0),(double)temp(1),(double)temp(2),(double)temp(3);
         auto r_norm=(float)r.norm();
         ICP::robust_weight(pars.f, r, 1);
         auto w=(float)r.norm();
