@@ -11,7 +11,7 @@
 #include <pcl/point_types.h>
 #include <pcl/visualization/cloud_viewer.h>
 #include <boost/thread/thread.hpp>
-#include "../include/robust_registration.h"
+#include "../include/pairwise_ICP.h"
 #include "../include/data_prepare.h"
 #include "../include/obb_box.h"
 #include <Eigen/Core>
@@ -26,9 +26,9 @@ void drawPointCloud(boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer,
     viewer->addPointCloud<pcl::PointXYZ>(cloud, pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ>(cloud, color[0], color[1], color[2]), name);
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, size, name);
 }
-void typeTransfer(pcl::PointCloud<pcl::PointXYZ>::Ptr in, Eigen::Matrix3Xd & out)
+void typeTransfer(const pcl::PointCloud<pcl::PointXYZ>::Ptr& in, Eigen::Matrix3Xd & out)
 {
-    int n_vertices = in->points.size();
+    int n_vertices = (int)in->points.size();
     out.resize(3,n_vertices);
     for (int i=0;i<n_vertices;i++)
     {
@@ -37,14 +37,14 @@ void typeTransfer(pcl::PointCloud<pcl::PointXYZ>::Ptr in, Eigen::Matrix3Xd & out
         out(2,i)=in->points[i].z;
     }
 }
-void typeTransfer(Eigen::Matrix3Xd in, pcl::PointCloud<pcl::PointXYZ>& out)
+void typeTransfer(const Eigen::Matrix3Xd& in, pcl::PointCloud<pcl::PointXYZ>& out)
 {
-    int n_vertices=in.cols();
+    int n_vertices=(int)in.cols();
     out.width=n_vertices;
     out.height =1;
     for (int i=0;i<n_vertices;i++)
     {
-        pcl::PointXYZ p(in(0,i),in(1,i),in(2,i));
+        pcl::PointXYZ p((float)in(0,i),(float)in(1,i),(float)in(2,i));
         out.points.push_back(p);
     }
 }
@@ -94,7 +94,7 @@ void getInitialCloud()
     }
     system("pause");
 }
-
+typedef Eigen::Matrix<Scalar, 3, Eigen::Dynamic> Vertices;
 int main(int argc, char **argv)
 {
     // transfer txt to pcd
@@ -103,7 +103,6 @@ int main(int argc, char **argv)
     // input data
     std::cout<<argv[1]<<std::endl;
     std::cout<<argv[2]<<std::endl;
-    typedef Eigen::Matrix<Scalar, 3, Eigen::Dynamic> Vertices;
     pcl::PointCloud<pcl::PointXYZ>::Ptr source_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr target_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud(new pcl::PointCloud<pcl::PointXYZ>);

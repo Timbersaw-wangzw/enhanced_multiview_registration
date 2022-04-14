@@ -21,15 +21,15 @@ struct SophusSE3Plus{
 //https://github.com/strasdat/Sophus/blob/develop/test/ceres/local_parameterization_se3.hpp
 class LocalParameterizationSE3 : public ceres::LocalParameterization {
 public:
-  virtual ~LocalParameterizationSE3() {}
+  ~LocalParameterizationSE3() override = default;
 
   /**
    * \brief SE3 plus operation for Ceres
    *
    * \f$ \exp(\widehat{\delta})\cdot T \f$
    */
-  virtual bool Plus(const double * T_raw, const double * delta_raw,
-                    double * T_plus_delta_raw) const {
+  bool Plus(const double * T_raw, const double * delta_raw,
+                    double * T_plus_delta_raw) const override {
     const Eigen::Map<const Sophus::SE3d> T(T_raw);
     const Eigen::Map<const Eigen::Matrix<double,6,1> > delta(delta_raw);
     Eigen::Map<Sophus::SE3d> T_plus_delta(T_plus_delta_raw);
@@ -42,8 +42,8 @@ public:
    *
    * \f$ \frac{\partial}{\partial \delta}\exp(\widehat{\delta})\cdot T|_{\delta=0} f$
    */
-  virtual bool ComputeJacobian(const double * T_raw, double * jacobian_raw)
-    const {
+  bool ComputeJacobian(const double * T_raw, double * jacobian_raw)
+    const override {
    Eigen::Map<Sophus::SE3d const> T(T_raw);
     Eigen::Map<Eigen::Matrix<double, 7, 6,Eigen::RowMajor>> jacobian(jacobian_raw);
     jacobian.setZero();
@@ -53,11 +53,11 @@ public:
     return true;
   }
 
-  virtual int GlobalSize() const {
+  int GlobalSize() const override {
     return Sophus::SE3d::num_parameters;
   }
 
-  virtual int LocalSize() const {
+  int LocalSize() const override {
     return Sophus::SE3d::DoF;
   }
 };

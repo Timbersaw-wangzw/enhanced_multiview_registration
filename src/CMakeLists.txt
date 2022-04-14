@@ -38,7 +38,7 @@ include_directories(
 link_directories(${IPOPT_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-add_executable(test_pcl ${SRC_DIR_LIST}  )
+add_executable(test_pcl ${SRC_DIR_LIST} icp_ipopt.cpp ../include/icp_ipopt.h)
 
 
 target_link_libraries (test_pcl 
