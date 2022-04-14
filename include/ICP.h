@@ -18,7 +18,7 @@
 #define ICP_H
 #include <nanoflann.hpp>
 #include "../Fast-Robust-ICP/AndersonAcceleration.h"
-#include <time.h>
+#include <ctime>
 #include <fstream>
 #include <algorithm>
 #include "../Fast-Robust-ICP/median.h"
@@ -809,7 +809,7 @@ namespace ICP {
             }
 
             ///////////////////////////////////////////////////////////////////////////////////////////
-            inline VectorX get_next_u (const Matrix6X u, const Matrix6X g, const Matrix6X f, std::vector<double> & save_alphas)
+            inline VectorX get_next_u (const Matrix6X& u, const Matrix6X& g, const Matrix6X& f, std::vector<double> & save_alphas)
             {
               int i = 1;
               double beta_ = 1.0;
@@ -880,7 +880,7 @@ namespace ICP {
                  std::vector<double> alphas;
 
                  X = T * X;
-                 ///groud truth target point cloud
+                 ///ground truth target point cloud
                  if(par.has_groundtruth)
                  {
                      Eigen::Vector3d temp_trans = par.gt_trans.block(0, 3, 3, 1);
