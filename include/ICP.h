@@ -39,7 +39,7 @@ namespace nanoflann {
         typedef typename Distance::template traits<num_t, self_t>::distance_t metric_t;
         typedef KDTreeSingleIndexAdaptor< metric_t, self_t, DIM, IndexType>  index_t;
         index_t* index;
-        KDTreeAdaptor(const MatrixType &mat, const int leaf_max_size = 10) : m_data_matrix(mat) {
+        explicit KDTreeAdaptor(const MatrixType &mat, const int leaf_max_size = 10) : m_data_matrix(mat) {
             const size_t dims = mat.rows();
             index = new index_t(dims, *this, nanoflann::KDTreeSingleIndexAdaptorParams(leaf_max_size, dims));
             index->buildIndex();
